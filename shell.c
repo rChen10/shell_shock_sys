@@ -6,4 +6,13 @@
 #include <sys/wait.h>
 #include "shell.h"
 
+char **parse_args(char *line){
+  char **
+  while(line){
+    strsep(line, " ");
+  }
+}
 
+int parent(int[2] fd){
+
+}
