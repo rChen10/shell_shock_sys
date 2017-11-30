@@ -4,15 +4,40 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 #include "shell.h"
 
 char **parse_args(char *line){
-  char **
+  char **args = calloc(15, sizeof(char *));
+  char **pos = args;
   while(line){
-    strsep(line, " ");
+    *pos = strsep(&line, " ");
+    pos++;
   }
+  return args;
 }
 
-int parent(int[2] fd){
-
+int parent(int *fd){
+  close(fd[READ]);
+  int *status;
+  wait(status);
+  return 0;
 }
+
+int child(int *fd, char **args){
+  close(fd[WRITE]);
+  execvp(args[0], args);
+  return 0;
+}
+void reader(char **buffy){
+  fgets(*buffy, sizeof(buffy), stdin);
+}
+
+/* int main(){ */
+/*   int i = 0; */
+/*   char a[] = "ls -l -a"; */
+/*   char **b = parse_args(a); */
+/*   for (i = 0; i < 3; i++){ */
+/*     printf("%s\n", b[i]); */
+/*   } */
+/* } */

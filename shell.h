@@ -1,4 +1,7 @@
+#define READ 0
+#define WRITE 1
+
 char **parse_args(char * line);
-int parent(int[2] fd);
-int child(int[2] fd);
-int reader(char ** args);
+int parent(int *fd);
+int child(int *fd, char **args);
+void reader(char **buffy);
