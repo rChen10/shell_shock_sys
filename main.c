@@ -1,4 +1,7 @@
 #include "shell.c"
+#include <sys/types.h>
+#include <sys/stat.h>
+
 int run(){
   char *buffy = (char *) calloc(256 ,sizeof(char));
   reader(&buffy);
@@ -23,17 +26,17 @@ int run(){
   printf("%s\n", print);
 }
 
-int *initialize(){
+FILE **initer(){
   mkfifo("./ssin", 466);
   mkfifo("./ssout", 466);
-  int fd[2];
-  fd[0] = fopen("./ssin", "w+");
-  fd[1] = fopen("./ssout", "w+");
-  return fd;
+  FILE **f = malloc( 2 * sizeof(FILE *) );
+  f[0] = fopen("./ssin", "w+");
+  f[1] = fopen("./ssout", "w+");
+  return f;
 }
 
 int main(){
-  int in_out[2] = initialize();
+  FILE **in_out = initer();
   run();
   
 }
