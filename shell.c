@@ -21,6 +21,11 @@ int parent(int *fd){
   close(fd[READ]);
   int *status;
   wait(status);
+
+  char *output = calloc( 256, sizeof(char) );
+  fgets(output, 255, stdout);
+  printf("%s\n", output);
+  free(output);
   return 0;
 }
 
@@ -30,7 +35,11 @@ int child(int *fd, char **args){
   return 0;
 }
 void reader(char **buffy){
-  fgets(*buffy, sizeof(buffy), stdin);
+  fgets(*buffy, 256, stdin);
+  int nl = strlen(*buffy) - 1;
+  if ( (*buffy)[nl] == '\n' ){
+    (*buffy)[nl] = 0;
+  }
 }
 
 /* int main(){ */
