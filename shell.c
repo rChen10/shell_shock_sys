@@ -28,7 +28,33 @@ char **parse_commands(char *line){
 }
 
 char * rm_space(char * line){
-
+  char * next = strchr(line, ' ');
+  if(line[0] == ' '){
+    if(line[1] == ' '){
+      strcpy(line, line + 1);
+      return rm_space(line);
+    }
+    else{
+      rm_space(line + 1);
+      return line + 1 ;
+    }
+  }
+  else if(next == 0)
+    return line;
+  else if(next[1] == 0){
+    next[0] = 0;
+    return line;
+  }
+  else if(next[1] == ' '){
+    next[0] = 0;
+    strcat(line, next + 1);
+    rm_space(next);
+    return line;
+  }
+  else{
+    rm_space(next + 1);
+    return line;
+  }
 }
 
 /*
@@ -52,11 +78,6 @@ int parent(int *fd){
   close(fd[READ]);
   int *status;
   wait(status);
-
-  char *output = calloc( 256, sizeof(char) );
-  fgets(output, 255, stdout);
-  printf("%s\n", output);
-  free(output);
   return 0;
 }
 
