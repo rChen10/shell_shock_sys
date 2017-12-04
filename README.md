@@ -18,6 +18,7 @@
   * There is no safe way to exit cat > or < because signals are not handled.
 
 **Files & Function Headers**
+```
 shell.c
 /*====== char **parse_args() ============
   Inputs: char *line
@@ -125,4 +126,5 @@ redirect.c
   Opens a pipe between the commands specified in cmds.
 
   ===========*/
+  ```
 
