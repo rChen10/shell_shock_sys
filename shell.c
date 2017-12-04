@@ -17,9 +17,23 @@ char **parse_args(char *line){
   return args;
 }
 
+char **parse_commands(char *line){
+  char ** cmds = (char **)calloc(6, sizeof(line));
+  int i = 0;
+  while(line){
+    cmds[i] = strsep(&line, ";");
+    i++;
+  }
+  return cmds;
+}
+
+char * rm_space(char * line){
+
+}
+
 /*
   @line: the command line
-  This function first tests if the line's first element is cd, 
+  First tests if the line's first element is cd, 
   then changes the directory to the argument
 */
 void cd(char **line){
@@ -29,7 +43,6 @@ void cd(char **line){
 }
 
 void my_exit(char ** line){
-
   if(strcmp(line[0], "exit") == 0){
     exit(0);
   }
