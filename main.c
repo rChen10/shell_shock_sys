@@ -3,27 +3,33 @@
 #include <sys/stat.h>
 
 int run(){
-  char *buffy = (char *) calloc(256 ,sizeof(char));
-  reader(&buffy);
-  char **args = parse_args(buffy);
-  
-  int fd[2];
-  if(pipe( fd )){
-    printf("%s\n", strerror(errno));
-    exit(0);
-  }
-  
-  int f = fork();
-  if (f){ //parent
-    parent(fd);
-  }
-  else{ //child
-    child(fd, args);
-  }
+  while(1){
+    char *buffy = (char *) calloc(256 ,sizeof(char));
+    reader(&buffy);
+    char **args = parse_args(buffy);
+    
+    my_exit(args);
 
-  char *print = calloc(256, sizeof(char));
-  fread(print, 256, 1, stdout);
-  printf("%s\n", print);
+    int fd[2];
+    if(pipe( fd )){
+      printf("%s\n", strerror(errno));
+      exit(0);
+    }
+    
+    int f = fork();
+    if (f){ //parent
+      parent(fd);
+    }
+    else{ //child
+      cd(args);
+
+      child(fd, args);
+    }
+
+    char *print = calloc(256, sizeof(char));
+    fread(print, 256, 1, stdout);
+    printf("%s\n", print);
+  }
 }
 
 FILE **initer(){

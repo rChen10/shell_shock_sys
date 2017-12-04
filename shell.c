@@ -17,6 +17,24 @@ char **parse_args(char *line){
   return args;
 }
 
+/*
+  @line: the command line
+  This function first tests if the line's first element is cd, 
+  then changes the directory to the argument
+*/
+void cd(char **line){
+  if( strcmp(line[0], "cd") == 0 && line[1]){
+    chdir(line[1]);   
+  }
+}
+
+void my_exit(char ** line){
+
+  if(strcmp(line[0], "exit") == 0){
+    exit(0);
+  }
+}
+
 int parent(int *fd){
   close(fd[READ]);
   int *status;
@@ -32,6 +50,7 @@ int parent(int *fd){
 int child(int *fd, char **args){
   close(fd[WRITE]);
   execvp(args[0], args);
+
   return 0;
 }
 void reader(char **buffy){
