@@ -18,16 +18,17 @@ int run(){
 
     int i = 0;
     while(cmds[i]){
+      //printf("%s\n", cmds[i]);
       if(strchr(cmds[i], '<')){
-	sin = redirect_in(strchr(cmds[i], '<'));
+	      sin = redirect_in(strchr(cmds[i], '<'));
       }
       if(strchr(cmds[i], '>')){
-	sout = redirect_out(strchr(cmds[i], '>'));
+	      sout = redirect_out(strchr(cmds[i], '>'));
       }
       
-      char **args = parse_args(cmds[i]);
+     
 
-      my_exit(args);
+   
 
       int fd[2];
       if(pipe( fd )){
@@ -40,17 +41,20 @@ int run(){
         parent(fd);
       }
       else{ //child
-        cd(args);
+        
+        //printf("%s\n", cmds[i]);
         if (strstr(cmds[i], "|")) {
-          printf("Piping\n" );
-          cmds = parse_commands(cmds[i], "|");
+          //printf("Piping\n" );
+          char **args = parse_commands(cmds[i], "|");
           my_pipe(args);
         }
-
+        
         else{
+          char **args = parse_args(cmds[i]);
           child(fd, args);
+          cd(args);
+          my_exit(args);
         }
-
       }
 
       char *print = calloc(256, sizeof(char));

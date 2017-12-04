@@ -10,8 +10,9 @@ void my_pipe(char **cmds){
   while(fgets(out, 256, left)){
     strcat(st, out);
   }
-  printf("%s\n", st);
+  //printf("%s\n", st);
   fprintf(right, "%s", st);
   fclose(left);
   fclose(right);
+  return 0;
 }

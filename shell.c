@@ -8,7 +8,10 @@
 #include "shell.h"
 #include "redirect.c"
 
+
+
 char **parse_args(char *line){
+  line = rm_space(line);
   char **args = calloc(15, sizeof(char *));
   char **pos = args;
   while(line){
