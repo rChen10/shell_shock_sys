@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include "shell.h"
+#include "redirect.c"
 
 char **parse_args(char *line){
   char **args = calloc(15, sizeof(char *));
@@ -27,9 +28,29 @@ char **parse_commands(char *line, char *delim){
   return cmds;
 }
 
+int redirect_in(char *args){
+  printf("%s\n", args);
+  args[-1] = 0;
+  char ** p = parse_args(args);
+  return redirector_in(p[1]);
+}
+
+int redirect_out(char *args){
+  printf("%s\n", args);
+  args[-1] = 0;
+  char ** p = parse_args(args);
+  return redirector_out(p[1]);
+}
+
 char * rm_space(char * line){
   char * next = strchr(line, ' ');
-  if(line[0] == ' '){
+  if(next == 0)
+    return line;
+  else if(next[1] == 0){
+    next[0] = 0;
+    return line;
+  }
+  else if(line[0] == ' '){
     if(line[1] == ' '){
       strcpy(line, line + 1);
       return rm_space(line);
@@ -38,12 +59,6 @@ char * rm_space(char * line){
       rm_space(line + 1);
       return line + 1 ;
     }
-  }
-  else if(next == 0)
-    return line;
-  else if(next[1] == 0){
-    next[0] = 0;
-    return line;
   }
   else if(next[1] == ' '){
     next[0] = 0;
@@ -76,8 +91,8 @@ void my_exit(char ** line){
 
 int parent(int *fd){
   close(fd[READ]);
-  int *status;
-  wait(status);
+  int status;
+  wait(&status);
   return 0;
 }
 

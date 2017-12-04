@@ -4,17 +4,28 @@
 #include "pipe.c"
 
 int run(){
+  int sin = 0;
+  int sout = 1;
+  
   while(1){
+    //dup2(sin, 0);
+    //dup2(sout, 1);
     char *buffy = (char *) calloc(256 ,sizeof(char));
     reader(&buffy);
     buffy = rm_space(buffy);
     //printf("parsed args: %s\n", buffy);
-    char **cmds = parse_commands(buffy);
+    char **cmds = parse_commands(buffy, ";");
 
     int i = 0;
     while(cmds[i]){
+      if(strchr(cmds[i], '<')){
+	sin = redirect_in(strchr(cmds[i], '<'));
+      }
+      if(strchr(cmds[i], '>')){
+	sout = redirect_out(strchr(cmds[i], '>'));
+      }
+      
       char **args = parse_args(cmds[i]);
-
 
       my_exit(args);
 
