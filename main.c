@@ -7,7 +7,10 @@ int run(){
   while(1){
     char *buffy = (char *) calloc(256 ,sizeof(char));
     reader(&buffy);
-    char **cmds = parse_commands(buffy, ";");
+    buffy = rm_space(buffy);
+    //printf("parsed args: %s\n", buffy);
+    char **cmds = parse_commands(buffy);
+
     int i = 0;
     while(cmds[i]){
       char **args = parse_args(cmds[i]);
