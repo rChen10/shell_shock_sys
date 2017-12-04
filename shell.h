@@ -19,7 +19,7 @@ char **parse_args(char * line);
   ===========*/
 int parent(int *fd);
 
-/*====== int child(int *fd, char **args) ============
+/*====== int child() ============
   Inputs:
     int *fd: The pipe
     char **args: Command line as an array of strings where every token is separated by a single whitespace
@@ -29,16 +29,16 @@ int parent(int *fd);
   ===========*/
 int child(int *fd, char **args);
 
-/*====== void reader(char **buffy) ============
+/*====== void reader() ============
   Inputs:
     char **buffy: A pointer to an empty array of char *
-  Returns: nothing
+  Returns: 1 on success
 
   Reads from stdin into buffy.
   ===========*/
-void reader(char **buffy);
+int reader(char **buffy);
 
-/*====== char **parse_commands(char *line, char *delim) ============
+/*====== char **parse_commands() ============
   Inputs:
     char *line: Array of strings where every token is separated by a single whitespace
     char *delim: The delimiter to parse line
@@ -48,30 +48,36 @@ void reader(char **buffy);
   ===========*/
 char **parse_commands(char *line, char *delim);
 
-/*====== int redirect_in(char *args) ============
+/*====== int redirect_in() ============
   Inputs:
-    char *args:
-  Returns: 
+    char *args: everything following the and including the <
+  Returns: The file descriptor for stdin
 
-
+  Places a null before <.
+  Relies on helper function redirector_in to open the file path given by the second argument.
+  The file descriptor for stdin is copied first.
   ===========*/
 int redirect_in(char *args);
 
-/*====== int redirect_out(char *args) ============
+/*====== int redirect_out() ============
   Inputs:
-    char *args:
-  Returns: 
+    char *args: everything following the and including the <
+  Returns: The file descriptor for stdout
 
+  Places a null before <.
+  Relies on helper function redirector_out to open the file path given by the second argument.
+  The file descriptor for stdout is copied first.
 
   ===========*/
 int redirect_out(char *args);
 
-/*====== int rm_space(char *line) ============
+/*====== char * rm_space() ============
   Inputs:
-    char *line:
-  Returns: 
+    char *line: the buffer
+    char delim: the char to be removed
+  Returns: A pointer to the start of the trimmed string.
 
-  Removes extraneous spaces from line
+  Removes extraneous delims from line.
   ===========*/
 char * rm_space(char * line);
 

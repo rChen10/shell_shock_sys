@@ -1,5 +1,14 @@
 #include <fcntl.h>
 
+/*====== redirector_in/out() ============
+  Inputs:
+    char *path: filepath
+  Returns: The file descriptor for stdin/out
+
+  Helper funcion for redirect_in/out
+
+  ===========*/
+
 int redirector_in(char *path){
   int sin = dup(0);
   int target = open(path, O_RDONLY);

@@ -6,13 +6,14 @@
 int run(){
   int sin = 0;
   int sout = 1;
+  char *buffy = (char *) calloc(256 ,sizeof(char));
   
-  while(1){
+  while(reader(&buffy)){
+    //dup2(redirector_in("./input"), 0);
     //dup2(sin, 0);
     //dup2(sout, 1);
-    char *buffy = (char *) calloc(256 ,sizeof(char));
-    reader(&buffy);
-    buffy = rm_space(buffy);
+    //printf("%d\n", sin);
+    buffy = rm_delim(buffy, ' ');
     //printf("parsed args: %s\n", buffy);
     char **cmds = parse_commands(buffy, ";");
 
@@ -65,17 +66,7 @@ int run(){
   }
 }
 
-FILE **initer(){
-  mkfifo("./ssin", 466);
-  mkfifo("./ssout", 466);
-  FILE **f = malloc( 2 * sizeof(FILE *) );
-  f[0] = fopen("./ssin", "w+");
-  f[1] = fopen("./ssout", "w+");
-  return f;
-}
-
 int main(){
-  FILE **in_out = initer();
   run();
   
 }

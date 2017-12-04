@@ -8,10 +8,8 @@
 #include "shell.h"
 #include "redirect.c"
 
-
-
 char **parse_args(char *line){
-  line = rm_space(line);
+  //line = rm_space(line);
   char **args = calloc(15, sizeof(char *));
   char **pos = args;
   while(line){
@@ -32,45 +30,43 @@ char **parse_commands(char *line, char *delim){
 }
 
 int redirect_in(char *args){
-  printf("%s\n", args);
   args[-1] = 0;
   char ** p = parse_args(args);
   return redirector_in(p[1]);
 }
 
 int redirect_out(char *args){
-  printf("%s\n", args);
   args[-1] = 0;
   char ** p = parse_args(args);
   return redirector_out(p[1]);
 }
 
-char * rm_space(char * line){
-  char * next = strchr(line, ' ');
+char * rm_delim(char * line, char delim){
+  char * next = strchr(line, delim);
   if(next == 0)
     return line;
   else if(next[1] == 0){
     next[0] = 0;
     return line;
   }
-  else if(line[0] == ' '){
-    if(line[1] == ' '){
+  else if(line[0] == delim){
+    if(line[1] == delim){
       strcpy(line, line + 1);
-      return rm_space(line);
+      return rm_delim(line, delim);
     }
     else{
-      rm_space(line + 1);
+      rm_delim(line + 1, delim);
       return line + 1 ;
     }
   }
-  else if(next[1] == ' '){
+  else if(next[1] == delim){
     next[0] = 0;
     strcat(line, next + 1);
-    rm_space(next);
+    rm_delim(next, delim);
     return line;
   }
   else{
-    rm_space(next + 1);
+    rm_delim(next + 1, delim);
     return line;
   }
 }
@@ -105,12 +101,17 @@ int child(int *fd, char **args){
 
   return 0;
 }
-void reader(char **buffy){
+int reader(char **buffy){
+  **buffy = 0;
   fgets(*buffy, 256, stdin);
-  int nl = strlen(*buffy) - 1;
-  if ( (*buffy)[nl] == '\n' ){
-    (*buffy)[nl] = 0;
+  if(strchr(*buffy, '\n')){
+    (*strchr(*buffy, '\n')) = 0;
   }
+  return 1;
+  /* int nl = strlen(*buffy) - 1; */
+  /* if ( (*buffy)[nl] == '\n' ){ */
+  /*   (*buffy)[nl] = 0; */
+  //}
 }
 
 /* int main(){ */

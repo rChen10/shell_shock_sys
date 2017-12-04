@@ -1,1 +1,12 @@
-echo LOL
+input
+main.c
+makefile
+pipe.c
+README.md
+redirect.c
+shell.c
+shell.h
+shell_shock
+ssin
+ssout
+test

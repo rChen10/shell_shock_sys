@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*====== my_pipe() ============
+  Inputs:
+    char **cmds: Parsed arguments
+  Returns: none
 
+  Opens a pipe between the commands specified in cmds.
+
+  ===========*/
 void my_pipe(char **cmds){
   FILE *left = popen(cmds[0], "r");
   FILE *right = popen(cmds[1], "w");
@@ -14,5 +21,4 @@ void my_pipe(char **cmds){
   fprintf(right, "%s", st);
   fclose(left);
   fclose(right);
-  return 0;
 }
