@@ -48,14 +48,48 @@ void reader(char **buffy);
   ===========*/
 char **parse_commands(char *line, char *delim);
 
+/*====== int redirect_in(char *args) ============
+  Inputs:
+    char *args:
+  Returns: 
+
+
+  ===========*/
+int redirect_in(char *args);
+
+/*====== int redirect_out(char *args) ============
+  Inputs:
+    char *args:
+  Returns: 
+
+
+  ===========*/
+int redirect_out(char *args);
+
+/*====== int rm_space(char *line) ============
+  Inputs:
+    char *line:
+  Returns: 
+
+  Removes extraneous spaces from line
+  ===========*/
 char * rm_space(char * line);
 
 /*====== void cd() ============
+  Inputs:
+    char **line: Array of strings where every token is separated by a single whitespace
+  Returns: nothing
 
+  Our implementation of cd
   ===========*/
 void cd(char **line);
-/*====== void my_exit() ============
 
+/*====== void my_exit() ============
+  Inputs:
+    char **line: Array of strings where every token is separated by a single whitespace
+  Returns: nothing
+
+  Our implementation of exit
   ===========*/
 void my_exit(char ** line);
 /*======  ============
