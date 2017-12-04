@@ -25,7 +25,7 @@ int child(int *fd, char **args);
   ===========*/
 void reader(char **buffy);
 
-char **parse_commands(char *line);
+char **parse_commands(char *line, char *delim);
 
 char * rm_space(char * line);
 

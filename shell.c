@@ -17,11 +17,11 @@ char **parse_args(char *line){
   return args;
 }
 
-char **parse_commands(char *line){
+char **parse_commands(char *line, char *delim){
   char ** cmds = (char **)calloc(6, sizeof(line));
   int i = 0;
   while(line){
-    cmds[i] = strsep(&line, ";");
+    cmds[i] = strsep(&line, delim);
     i++;
   }
   return cmds;
